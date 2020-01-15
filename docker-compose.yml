@@ -1,0 +1,42 @@
+version: "3"
+services:
+  app:
+    build: .
+    command: npm start
+    ports: 
+      - "3000:3000"
+    volumes: 
+      - ".:/app"
+    networks: 
+      - backend
+      - frontend
+  mongodb:
+    image: mongo
+    restart: always
+    env_file:
+      - ./env/mongodb.env
+    volumes: 
+      - "./data/db:/data/db"
+    ports:
+      - "27017:27017"
+    networks: 
+      - backend
+  mongo-express:
+    image: mongo-express
+    restart: always
+    logging:
+      driver: none
+    env_file:
+      - ./env/mongoexpress.env
+    networks:
+      - backend
+      - frontend
+    ports:
+      - 8081:8081
+    depends_on:
+      - mongodb
+
+networks:
+  frontend:
+  backend:
+
