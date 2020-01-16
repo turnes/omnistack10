@@ -1,6 +1,16 @@
 version: "3"
 services:
-  app:
+  web:
+    build: ./web/.
+    command: npm start
+    ports: 
+      - "8080:3000"
+    volumes:
+      - "./web:/app"
+    networks:
+      - frontend
+      - backend
+  api:
     build: .
     command: npm start
     ports: 
